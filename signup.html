@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholar Port | Login & Signup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f1f3f6;
+    }
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 420px;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .button-div {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      background: #e9ecf2;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    .switch-btn {
+      width: 50%;
+      padding: 12px 0;
+      cursor: pointer;
+      font-weight: 600;
+      color: #333;
+      z-index: 2;
+      transition: color 0.3s ease;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: #2874f0;
+      border-radius: 8px;
+      transition: all 1s ease;
+      z-index: 1;
+    }
+
+    #login:checked ~ .button-div label[for="login"],
+    #signup:checked ~ .button-div label[for="signup"] {
+      color: #fff;
+    }
+
+    #signup:checked ~ .button-div .slider {
+      transform: translateX(100%);
+    }
+
+    .form-area {
+      overflow: hidden;
+    }
+
+    .forms {
+      display: flex;
+      width: 200%;
+      transition: transform 1s ease;
+    }
+
+    #login:checked ~ .form-area .forms {
+      transform: translateX(0%);
+    }
+
+    #signup:checked ~ .form-area .forms {
+      transform: translateX(-50%);
+    }
+
+    .form-box {
+      width: 50%;
+      padding: 10px;
+      text-align: left;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2874f0;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 40px 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      transition: 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      border-color: #2874f0;
+      box-shadow: 0 0 5px rgba(40, 116, 240, 0.4);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 35px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2874f0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-password:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #2874f0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0d5ee0;
+    }
+
+    .footer-text {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .footer-text span {
+      color: #f7b52b;
+      font-weight: 600;
+    }
+
+    .role-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .role-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #2874f0;
+      cursor: pointer;
+    }
+
+    .role-check label {
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input type="radio" id="login" name="switch" checked />
+    <input type="radio" id="signup" name="switch" />
+
+    <div class="button-div">
+      <label for="login" class="switch-btn">Login</label>
+      <label for="signup" class="switch-btn">Signup</label>
+      <div class="slider"></div>
+    </div>
+
+    <div class="form-area">
+      <div class="forms">
+        <!-- LOGIN FORM -->
+        <div class="form-box login-box">
+          <h2>Login</h2>
+          <form id="loginForm">
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" name="email" id="loginEmail" placeholder="Enter your email" required />
+            </div>
+            <div class="input-group">
+              <label>Password</label>
+              <input type="password" name="password" id="loginPassword" placeholder="Enter your password" required />
+              <span class="toggle-password" onclick="togglePassword('loginPassword', this)">Show</span>
+            </div>
+            <button type="submit">Login</button>
+          </form>
+          <p class="footer-text">
+            New to ScholarPort?
+            <span id="switchToSignup" style="color:#2874f0; font-weight:600; cursor:pointer;">Sign up now!</span>
+          </p>          
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div class="form-box signup-box">
+          <h2>Sign Up</h2>
+          <form id="signupForm">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="Enter your name" required />
+            </div>
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div class="input-group">
+              <label>Password</label>
+              <input type="password" name="password" id="signupPassword" placeholder="Create a password" required />
+              <span class="toggle-password" onclick="togglePassword('signupPassword', this)">Show</span>
+            </div>
+            <div class="input-group">
+              <label>Confirm Password</label>
+              <input type="password" id="confirmPassword" placeholder="Re-enter your password" required />
+              <span class="toggle-password" onclick="togglePassword('confirmPassword', this)">Show</span>
+            </div>
+
+            <!-- Only organisation option -->
+            <div class="role-check">
+              <input type="checkbox" id="isOrg" name="isOrg" />
+              <label for="isOrg">Register as Organisation</label>
+            </div>
+
+            <button type="submit">Sign Up</button>
+            <p class="footer-text">Already have an account? 
+              <span id="switchToLogin" style="color:#2874f0; font-weight:600; cursor:pointer">Login now!</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword(id, el) {
+      const input = document.getElementById(id);
+      if (input.type === "password") {
+        input.type = "text";
+        el.textContent = "Hide";
+      } else {
+        input.type = "password";
+        el.textContent = "Show";
+      }
+    }
+
+    document.getElementById("switchToSignup").addEventListener("click", () => {
+      document.getElementById("signup").checked = true;
+    });
+    document.getElementById("switchToLogin").addEventListener("click", () => {
+      document.getElementById("login").checked = true;
+    });
+
+    // Signup redirect simulation
+    document.getElementById("signupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const isOrg = document.getElementById("isOrg").checked;
+
+      if (isOrg) {
+        window.location.href = "adminbuddy.html";
+      } else {
+        window.location.href = "student.html";
+      }
+    });
+
+    // Login redirect with super admin check
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      // Check super admin credentials
+      if (email === "debashishparida75@gmail.com" && password === "DP_EDITS29@") {
+        window.location.href = "superadmin.html";
+      } else if (email.includes("org")) {
+        window.location.href = "organisation-dashboard.html";
+      } else {
+        window.location.href = "student-home.html";
+      }
+    });
+  </script>
+</body>
+</html>
