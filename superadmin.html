@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ScholarPort | Super Admin</title>
+  <style>
+    :root {
+      --fk-blue: #2874f0;
+      --fk-yellow: #ffb400;
+      --bg-light: #f1f3f6;
+      --card-bg: #ffffff;
+      --text-dark: #212121;
+      --text-muted: #555555;
+      --radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--fk-blue);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      position: fixed;
+      height: 100%;
+    }
+
+    .sidebar .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar .brand .logo {
+      background: var(--fk-yellow);
+      color: #000;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius);
+    }
+
+    .sidebar .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar .nav button {
+      background: transparent;
+      border: none;
+      color: inherit;
+      text-align: left;
+      padding: 12px;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .sidebar .nav button:hover,
+    .sidebar .nav button.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar .user {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+    }
+
+    .sidebar .user button {
+      margin-top: 8px;
+      width: 100%;
+      padding: 10px;
+      background: var(--fk-yellow);
+      color: #000;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid #e5e9ff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--fk-blue);
+    }
+
+    .content {
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      color: var(--fk-blue);
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      background: #fafbff;
+      text-align: left;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .btn-primary { background: var(--fk-blue); color: #fff; }
+    .btn-danger { background: #e53935; color: #fff; }
+    .btn-edit { background: #ffb400; color: #000; }
+
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin: 4px;
+      width: calc(33% - 10px);
+    }
+
+    .form-row { margin-bottom: 8px; }
+
+    .announce {
+      background: var(--card-bg);
+      padding: 14px;
+      border-left: 4px solid var(--fk-yellow);
+      margin-top: 12px;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Hamburger Button */
+    .hambtn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 28px;
+      height: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .hambtn span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: var(--fk-blue);
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        transition: 0.3s;
+        width: 70%;
+        z-index: 10;
+      }
+
+      .sidebar.open { left: 0; }
+      .hambtn { display: flex; }
+      .main { margin-left: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">SP</div>
+      <h2>ScholarPort Admin</h2>
+    </div>
+
+    <nav class="nav">
+      <button class="active" data-section="dashboard">🏠 Dashboard</button>
+      <button data-section="students">🎓 Manage Students</button>
+      <button data-section="organizations">🏢 Manage Orgs</button>
+      <button data-section="scholarships">📑 Manage Scholarships</button>
+      <button data-section="pending">🕒 Pending Scholarships</button>
+      <button data-section="announcements">📢 Announcements</button>
+      <button data-section="reports">📊 Reports</button>
+    </nav>
+
+    <div class="user">
+      Logged in as <strong>Super Admin</strong><br>
+      <button>Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Section -->
+  <div class="main">
+    <div class="topbar">
+      <button id="hambtn" class="hambtn">
+        <span></span><span></span><span></span>
+      </button>
+      <h2 id="pageTitle">Dashboard</h2>
+    </div>
+
+    <div class="content" id="content"></div>
+  </div>
+
+  <script>
+    const q = s => document.querySelector(s);
+    const qa = s => Array.from(document.querySelectorAll(s));
+
+    const data = {
+      students: [
+        { name: "Asha Sharma", email: "asha@gmail.com", course: "B.Tech CSE", year: "3" },
+        { name: "Riya Das", email: "riya@gmail.com", course: "BBA", year: "2" },
+      ],
+      orgs: [
+        { name: "Infosys Foundation", email: "contact@infosys.org", posted: 3 },
+      ],
+      scholarships: [
+        { title: "Merit Scholarship A", deadline: "2025-12-01" },
+      ],
+      pending: [
+        { title: "Women in Tech", org: "TATA Trusts", deadline: "2025-12-15" }
+      ],
+      announcements: [
+        { msg: "Portal maintenance on 10th Nov", date: "2025-11-05" }
+      ]
+    };
+
+    qa('.nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        qa('.nav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const section = btn.dataset.section;
+        q('#pageTitle').textContent = section.charAt(0).toUpperCase() + section.slice(1);
+        renderSection(section);
+      });
+    });
+
+    q('#hambtn').addEventListener('click', () => q('#sidebar').classList.toggle('open'));
+
+    // RENDER SECTIONS
+    function renderSection(section) {
+      const c = q('#content');
+      c.innerHTML = '';
+
+      if (section === 'dashboard') {
+        c.innerHTML = `
+          <h2>Welcome, Super Admin 👋</h2>
+          <div class="grid">
+            <div class="card"><h3>🎓 Students</h3><p>${data.students.length}</p></div>
+            <div class="card"><h3>🏢 Organizations</h3><p>${data.orgs.length}</p></div>
+            <div class="card"><h3>📑 Scholarships</h3><p>${data.scholarships.length}</p></div>
+            <div class="card"><h3>🕒 Pending</h3><p>${data.pending.length}</p></div>
+          </div>`;
+      }
+
+      else if (section === 'students') {
+        c.innerHTML = `
+          <h2>Manage Students</h2>
+          <div class="form-row">
+            <input id="sName" placeholder="Name">
+            <input id="sEmail" placeholder="Email">
+            <input id="sCourse" placeholder="Course">
+            <input id="sYear" placeholder="Year">
+            <button class="btn btn-primary" onclick="addStudent()">Add</button>
+          </div>
+          <table>
+            <tr><th>Name</th><th>Email</th><th>Course</th><th>Year</th><th>Actions</th></tr>
+          </table>`;
+
+        const t = c.querySelector('table');
+        data.students.forEach((s, i) => {
+          t.innerHTML += `
+            <tr>
+              <td contenteditable id="sname${i}">${s.name}</td>
+              <td contenteditable id="semail${i}">${s.email}</td>
+              <td contenteditable id="scourse${i}">${s.course}</td>
+              <td contenteditable id="syear${i}">${s.year}</td>
+              <td>
+                <button class="btn btn-edit" onclick="editStudent(${i})">Save</button>
+                <button class="btn btn-danger" onclick="removeStudent(${i})">Delete</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      else if (section === 'organizations') {
+        c.innerHTML = `
+          <h2>Manage Organizations</h2>
+          <div class="form-row">
+            <input id="oName" placeholder="Org Name">
+            <input id="oEmail" placeholder="Email">
+            <input id="oPosted" type="number" placeholder="Scholarships Posted">
+            <button class="btn btn-primary" onclick="addOrg()">Add</button>
+          </div>
+          <table>
+            <tr><th>Name</th><th>Email</th><th>Posted</th><th>Actions</th></tr>
+          </table>`;
+
+        const t = c.querySelector('table');
+        data.orgs.forEach((o, i) => {
+          t.innerHTML += `
+            <tr>
+              <td contenteditable id="oname${i}">${o.name}</td>
+              <td contenteditable id="oemail${i}">${o.email}</td>
+              <td contenteditable id="oposted${i}">${o.posted}</td>
+              <td>
+                <button class="btn btn-edit" onclick="editOrg(${i})">Save</button>
+                <button class="btn btn-danger" onclick="removeOrg(${i})">Delete</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      else if (section === 'scholarships') {
+        c.innerHTML = `
+          <h2>Manage Scholarships</h2>
+          <div class="form-row">
+            <input id="schTitle" placeholder="Scholarship Title">
+            <input id="schDeadline" type="date">
+            <button class="btn btn-primary" onclick="addScholarship()">Add</button>
+          </div>
+          <table>
+            <tr><th>Title</th><th>Deadline</th><th>Actions</th></tr>
+          </table>`;
+
+        const t = c.querySelector('table');
+        data.scholarships.forEach((s, i) => {
+          t.innerHTML += `
+            <tr>
+              <td contenteditable id="sctitle${i}">${s.title}</td>
+              <td contenteditable id="scdeadline${i}">${s.deadline}</td>
+              <td>
+                <button class="btn btn-edit" onclick="editScholarship(${i})">Save</button>
+                <button class="btn btn-danger" onclick="removeScholarship(${i})">Delete</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      else if (section === 'pending') {
+        c.innerHTML = `
+          <h2>Pending Scholarships (Approval)</h2>
+          <table>
+            <tr><th>Title</th><th>Organization</th><th>Deadline</th><th>Action</th></tr>
+          </table>`;
+
+        const t = c.querySelector('table');
+        data.pending.forEach((p, i) => {
+          t.innerHTML += `
+            <tr>
+              <td>${p.title}</td>
+              <td>${p.org}</td>
+              <td>${p.deadline}</td>
+              <td>
+                <button class="btn btn-primary" onclick="approveScholarship(${i})">Approve</button>
+                <button class="btn btn-danger" onclick="rejectScholarship(${i})">Reject</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      else if (section === 'announcements') {
+        c.innerHTML = `
+          <h2>Announcements</h2>
+          <div style="margin-bottom:12px;">
+            <input id="newAnn" placeholder="Enter announcement..." style="padding:8px;width:70%;border:1px solid #ccc;border-radius:6px;">
+            <button class="btn btn-primary" onclick="addAnnouncement()">Add</button>
+          </div>
+          <div id="announceList"></div>`;
+        renderAnnouncements();
+      }
+
+      else if (section === 'reports') {
+        c.innerHTML = `
+          <h2>Reports</h2>
+          <div class="card" style="text-align:left;">
+            <p><strong>Total Students:</strong> ${data.students.length}</p>
+            <p><strong>Total Organizations:</strong> ${data.orgs.length}</p>
+            <p><strong>Total Scholarships:</strong> ${data.scholarships.length}</p>
+            <p><strong>Pending Scholarships:</strong> ${data.pending.length}</p>
+            <p><strong>Announcements:</strong> ${data.announcements.length}</p>
+          </div>`;
+      }
+    }
+
+    // CRUD LOGIC
+    function addStudent() {
+      const name = q('#sName').value.trim(),
+        email = q('#sEmail').value.trim(),
+        course = q('#sCourse').value.trim(),
+        year = q('#sYear').value.trim();
+      if (!name || !email) return alert("Please fill all fields");
+      data.students.push({ name, email, course, year });
+      renderSection('students');
+    }
+
+    function editStudent(i) {
+      data.students[i].name = q(`#sname${i}`).textContent;
+      data.students[i].email = q(`#semail${i}`).textContent;
+      data.students[i].course = q(`#scourse${i}`).textContent;
+      data.students[i].year = q(`#syear${i}`).textContent;
+      alert("Student updated!");
+    }
+
+    function removeStudent(i) { data.students.splice(i, 1); renderSection('students'); }
+
+    function addOrg() {
+      const name = q('#oName').value.trim(),
+        email = q('#oEmail').value.trim(),
+        posted = q('#oPosted').value.trim();
+      if (!name || !email) return alert("Please fill all fields");
+      data.orgs.push({ name, email, posted });
+      renderSection('organizations');
+    }
+
+    function editOrg(i) {
+      data.orgs[i].name = q(`#oname${i}`).textContent;
+      data.orgs[i].email = q(`#oemail${i}`).textContent;
+      data.orgs[i].posted = q(`#oposted${i}`).textContent;
+      alert("Organization updated!");
+    }
+
+    function removeOrg(i) { data.orgs.splice(i, 1); renderSection('organizations'); }
+
+    function addScholarship() {
+      const title = q('#schTitle').value.trim(),
+        deadline = q('#schDeadline').value;
+      if (!title || !deadline) return alert("Please fill all fields");
+      data.scholarships.push({ title, deadline });
+      renderSection('scholarships');
+    }
+
+    function editScholarship(i) {
+      data.scholarships[i].title = q(`#sctitle${i}`).textContent;
+      data.scholarships[i].deadline = q(`#scdeadline${i}`).textContent;
+      alert("Scholarship updated!");
+    }
+
+    function removeScholarship(i) { data.scholarships.splice(i, 1); renderSection('scholarships'); }
+
+    function approveScholarship(i) {
+      const item = data.pending.splice(i, 1)[0];
+      data.scholarships.push({ title: item.title, deadline: item.deadline });
+      alert("Scholarship Approved!");
+      renderSection('pending');
+    }
+
+    function rejectScholarship(i) {
+      data.pending.splice(i, 1);
+      alert("Scholarship Rejected.");
+      renderSection('pending');
+    }
+
+    function addAnnouncement() {
+      const input = q('#newAnn');
+      const text = input.value.trim();
+      if (!text) return alert('Please enter text');
+      data.announcements.push({ msg: text, date: new Date().toLocaleDateString() });
+      input.value = '';
+      renderAnnouncements();
+    }
+
+    function renderAnnouncements() {
+      const l = q('#announceList');
+      l.innerHTML = '';
+      data.announcements.forEach(a => {
+        l.innerHTML += `<div class="announce"><strong>${a.date}</strong> — ${a.msg}</div>`;
+      });
+    }
+
+    renderSection('dashboard');
+  </script>
+</body>
+</html>
