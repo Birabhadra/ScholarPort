@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Scholar Org</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* BASE STYLES from CSS provided */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            /* Dashboard background color */
+            background: #f0f4ff;
+            color: #1f2937;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- Sidebar Navigation (Copied Updated Styles) --- */
+        .sidebar {
+            width: 250px; 
+            background: #ffffff;
+            padding: 2rem 0; 
+            border-right: 1px solid #e5e7eb; 
+            box-shadow: 2px 0 6px rgba(0,0,0,0.05); 
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            flex-shrink: 0;
+            border-top-right-radius: 12px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            color: #4f46e5;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+            font-weight: 700;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            padding: 0.9rem 2rem;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            border-radius: 8px 0 0 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar nav a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            display: block;
+            padding: 0;
+        }
+
+        .sidebar nav li:hover {
+            background: #e0e7ff;
+            border-left: 4px solid #4f46e5;
+        }
+        /* Active state for the Dashboard page */
+        .sidebar nav li.active {
+            background: #e0e7ff;
+            border-left: 4px solid #4f46e5;
+        }
+        
+        .sidebar nav li:hover a,
+        .sidebar nav li.active a {
+            color: #4f46e5;
+        }
+        /* End Sidebar Styles */
+
+
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem; 
+            overflow-y: auto;
+        }
+
+        /* --- Content Sections (Card Styling) --- */
+        .content-section {
+            background-color: #ffffff;
+            padding: 2rem; 
+            border-radius: 14px; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05); 
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .content-section h3 {
+            margin-top: 0;
+            font-size: 2rem;
+            color: #4f46e5; 
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        /* --- Responsive (Mobile) --- */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                border-radius: 0;
+                padding: 1rem 0;
+            }
+            .sidebar h2 {
+                 margin-bottom: 1rem;
+            }
+            .sidebar nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sidebar nav li {
+                margin: 5px;
+                padding: 0.6rem 1rem;
+                border-left: none;
+                border-bottom: 4px solid transparent;
+                border-radius: 8px;
+            }
+            .sidebar nav li.active {
+                border-left: none;
+                border-bottom: 4px solid #4f46e5;
+            }
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        /* --- Dashboard Cards (Updated to stat-card style) --- */
+        .card-container {
+            /* Matches the .stats container */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem; /* Increased gap */
+            margin-bottom: 2rem;
+            /* Removed content-section styling from this container for cleaner separation */
+            background-color: transparent; 
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+        .card {
+            /* Applied stat-card styling */
+            background: linear-gradient(135deg, #a5b4fc, #6366f1); /* Blue Gradient */
+            color: white; /* White text for contrast */
+            padding: 1.5rem;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            flex-grow: 1;
+            min-width: 180px; /* Reduced min-width to match stat-card structure */
+            border: none; /* Removed border */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h4 {
+            /* Title inside the gradient card */
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: white; 
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        .card p {
+            /* The main metric number */
+            font-size: 2.5rem; /* Increased font size */
+            font-weight: 700;
+            color: white; 
+            margin: 0; /* Removed margin */
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>Scholar Org</h2>
+        <nav>
+            <ul>
+                <li class="active"><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="manage.html">Manage Scholarships</a></li>
+                <li><a href="applicants.html">View Applicants</a></li>
+                <li><a href="contact.html">Contact & Support</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: #1f2937;">Welcome Back!</h1>
+        <p style="color: #4b5563; margin-bottom: 2rem;">Overview of your scholarship programs and application status.</p>
+
+        <div class="card-container">
+            <div class="card">
+                <h4>Total Scholarships Posted</h4>
+                <p>12</p>
+            </div>
+            <div class="card">
+                <h4>Applications Received</h4>
+                <p>284</p>
+            </div>
+            <div class="card">
+                <h4>Pending Review</h4>
+                <p>76</p>
+            </div>
+            <div class="card">
+                <h4>Awarded Funds</h4>
+                <p>$1.2M</p>
+            </div>
+        </div>
+
+        <section id="dashboard" class="content-section">
+            <h3>Recent Activity</h3>
+            <p style="color:#4b5563;">Detailed log of the most recent application submissions and program updates.</p>
+            <div style="height: 300px; background-color: #f9f9f9; border-radius: 8px; margin-top: 20px; display: flex; align-items: center; justify-content: center; color: #4b5563; border: 1px dashed #d1d5db;">
+                [Placeholder for Application Chart or Recent Applications Table]
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
