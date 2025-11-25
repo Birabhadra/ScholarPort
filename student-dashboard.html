@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard | ScholarPort</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="student-dashboard.css" />
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="logo">🎓 ScholarPort</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search scholarships..." />
+    </div>
+    <div class="top-actions">
+      <button class="notif-btn">🔔</button>
+      <div class="profile">
+        <img src="https://th.bing.com/th/id/OIP.NvB2ejF7-CyfaykkL5a_RAHaHa?w=200&h=200&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3" alt="Profile" />
+        <span>Hi, Aditi</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul>
+        <li class="active" onclick="showSection('dashboard')">🏠 Dashboard</li>
+        <li onclick="showSection('profile')">👩‍🎓 Profile</li>
+        <li onclick="showSection('myScholarships')">🎓 My Scholarships</li>
+        <li onclick="showSection('saved')">💾 Saved Scholarships</li>
+        <li onclick="showSection('notifications')">🔔 Notifications</li>
+        <li onclick="showSection('support')">📞 Contact & Support</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active">
+        <h1>Welcome back, Aditi 👋</h1>
+        <p class="subtitle">Here’s a quick overview of your scholarships and deadlines.</p>
+
+        <!-- Summary Cards -->
+        <div class="stats">
+          <div class="stat-card">
+            <h2>5</h2>
+            <p>Scholarships Applied</p>
+          </div>
+          <div class="stat-card">
+            <h2>2</h2>
+            <p>Saved Scholarships</p>
+          </div>
+          <div class="stat-card">
+            <h2>3</h2>
+            <p>Upcoming Deadlines</p>
+          </div>
+          <div class="stat-card">
+            <h2>1</h2>
+            <p>Approved</p>
+          </div>
+        </div>
+
+        <!-- Personalized Recommendations -->
+        <h2 class="section-title">🎯 Personalized Recommendations</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>STEM Innovation Grant</h3>
+            <p>Get up to ₹50,000 for academic excellence in Science streams.</p>
+            <p class="deadline">Deadline: <span>25 Nov 2025</span></p>
+            <button>Apply Now</button>
+          </div>
+          <div class="card">
+            <h3>AI Scholars Program</h3>
+            <p>Special support for students pursuing AI-related courses.</p>
+            <p class="deadline">Deadline: <span>10 Dec 2025</span></p>
+            <button>View Details</button>
+          </div>
+          <div class="card">
+            <h3>Merit Leader Scholarship</h3>
+            <p>Exclusive for top 10% of university rank holders.</p>
+            <p class="deadline">Deadline: <span>30 Dec 2025</span></p>
+            <button>Apply Now</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="profile" class="section">
+        <h1>Profile</h1>
+        <div class="profile-container">
+          <div class="profile-info">
+            <h2>Academic Information</h2>
+            <p><strong>Name:</strong> Aditi Sharma</p>
+            <p><strong>Course:</strong> B.Tech Computer Science</p>
+            <p><strong>CGPA:</strong> 8.7</p>
+            <p><strong>Institute:</strong> Silicon Institute of Technology</p>
+          </div>
+
+          <div class="profile-info">
+            <h2>Documents Vault</h2>
+            <ul class="doc-list">
+              <li>📄 Marksheet.pdf <button>View</button></li>
+              <li>📄 AadhaarCard.pdf <button>View</button></li>
+              <li>📄 IncomeCertificate.pdf <button>View</button></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY SCHOLARSHIPS -->
+      <section id="myScholarships" class="section">
+        <h1>My Scholarships</h1>
+        <div class="scholarship-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Scholarship</th>
+                <th>Status</th>
+                <th>Applied Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>National Science Award</td>
+                <td><span class="status approved">Approved</span></td>
+                <td>10 Oct 2025</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>AI Talent Scholarship</td>
+                <td><span class="status review">Under Review</span></td>
+                <td>25 Sep 2025</td>
+                <td><button>Track</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SAVED -->
+      <section id="saved" class="section">
+        <h1>Saved Scholarships</h1>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Global Achievers Grant</h3>
+            <p>Deadline: 15 Jan 2026</p>
+            <button>Apply Now</button>
+          </div>
+          <div class="card">
+            <h3>Women in Tech Scholarship</h3>
+            <p>Deadline: 20 Dec 2025</p>
+            <button>Apply Now</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTIFICATIONS -->
+      <section id="notifications" class="section">
+        <h1>Notifications</h1>
+        <ul class="notif-list">
+          <li>✅ Your AI Talent Scholarship has been submitted successfully!</li>
+          <li>⚠️ Deadline Reminder: Apply for Merit Leader Scholarship before 30 Dec!</li>
+        </ul>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="support" class="section">
+        <h1>Contact & Support</h1>
+        <p>Need help? Reach us at:</p>
+        <p><strong>Email:</strong> support@scholarport.in</p>
+        <button class="support-btn">Chat with Support</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="student-dashboard.js"></script>
+</body>
+</html>
